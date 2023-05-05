@@ -1,28 +1,44 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+    div
+        div(v-if="!finished")
+            navigation
+            goal
+            transition(name="fade" mode="out-in")
+                router-view
+            save-modal
+            load-modal
+            help-modal
+        div(v-if="finished")
+            end
+            
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { mapState } from 'vuex';
+import { Navigation, Goal, End, HelpModal } from './modules/app';
+import { SaveModal, LoadModal } from './modules/persistence';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    computed: mapState('app', ['finished']),
+    components: {
+        Navigation,
+        Goal,
+        End,
+        SaveModal,
+        LoadModal,
+        HelpModal
+    }
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter-active {
+    transition: opacity 0.3s;
+}
+.fade-leave-active {
+    transition: opacity 0.3s;
+    opacity: 0;
 }
 </style>

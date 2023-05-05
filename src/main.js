@@ -1,8 +1,27 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.config.productionTip = false
+import './directives';
+import routes from './routes';
+import store from './store';
+
+import App from './App.vue';
+import utils from './utils';
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes,
+  mode: 'history'
+});
 
 new Vue({
+  el: '#app',
+  router,
+  store,
   render: h => h(App),
-}).$mount('#app')
+  mounted() {
+    const vm = this;
+    utils.attachKeyboardShortcuts(vm);
+  }
+});
